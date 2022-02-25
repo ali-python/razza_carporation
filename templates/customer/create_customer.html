@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block customer %}active{% endblock %}
+{% block customer_create %}active{% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'common:index' %}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Add Customer / Supplier</li>
+        </ol>
+    </section>
+    <br>
+    <section class="content">
+        <!-- Info boxes -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h4 class="text-center"><b>Add Customer / Supplier</b></h4>
+                    </div>
+                    <div class="box-body">
+                        <form action="{% url 'customer:add' %}" method="post" autocomplete="off">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-4 pull-left form-group">
+                                    <label class="form-control-label">Name <span style="color:red">*</span></label>
+                                    <input type="text" name="name" class="form-control form-control-alternative" placeholder="Name" required>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control-label">Father Name <span style="color:red">*</span></label>
+                                    <input type="text" name="father_name" class="form-control form-control-alternative" placeholder="Father Name">
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control-label">NTN <span style="color:red">*</span></label>
+                                    <input type="text" name="ntn" class="form-control form-control-alternative" placeholder="NTN Number">
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control-label">STRN <span style="color:red">*</span></label>
+                                    <input type="text" name="strn" class="form-control form-control-alternative" placeholder="STRN Number">
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control-label" name="type_cs">Type<span style="color:red">*</span></label>
+                                    <select class="form-control" name="type_cs">
+                                        <option value="customer">customer</option>
+                                        <option value="supplier">supplier</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4  form-group">
+                                    <label class="form-control-label">CNIC <span style="color:red">*</span></label>
+                                    <input type="text" name="cnic" class="form-control form-control-alternative" placeholder="CNIC">
+                                </div>
+                                 <div class="col-md-4 form-group">
+                                    <label class="form-control-label">City <span style="color:red">*</span></label>
+                                    <input type="text" name="city" class="form-control form-control-alternative" placeholder="City" >
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control-label">Mobile <span style="color:red">*</span></label>
+                                    <input type="text" name="mobile" class="form-control form-control-alternative" placeholder="Mobile" required>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control-label">Alternate Mobile <span style="color:red">*</span></label>
+                                    <input type="text" name="alternate_mobile" class="form-control form-control-alternative" placeholder="Alternate Mobile">
+                                </div>
+                            </div>
+                            <div class="row">
+                               
+                                
+                                
+                                <div class="col-md-6  form-group">
+                                    <label class="form-control-label">Resident <span style="color:red">*</span></label>
+                                    <input type="text" name="resident" class="form-control form-control-alternative" placeholder="Resident" >
+                                </div>
+                                <div class="col-md-6  form-group">
+                                    <label class="form-control-label">Complete Address <span style="color:red">*</span></label>
+                                    <input type="text" name="address" class="form-control form-control-alternative" placeholder="Complete Address" >
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 pull-left form-group">
+                                    <label class="form-control-label"></label>
+                                    <button type="submit" value="Create" class="btn btn-primary form-control">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}

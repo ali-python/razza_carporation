@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block sales %}active{% endblock %}
+{% block sales_list %}active{% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'common:index' %}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Sales List</li>
+        </ol>
+    </section>
+    <br>
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="text-center"><b>{{customer.name|title}} {{customer.father_name|title}} Sales List</b></h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4 pull-left">
+                                <input type="text" class="form-control name_search" placeholder="Search by Name ..." >
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control id_search" placeholder="Search by CNIC ...">
+                            </div>
+                            <div class="col-md-2 pull-right">
+                                <button class="form-control btn btn-primary search">Search</button>
+                            </div>
+                        <br><br>
+                        <hr>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table align-items-center table-striped table-bordered table-hover" style="font-size: 22;">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th>Invoice ID</th>
+                                    <th>Item</th>
+                                    <th>Vehicle</th>
+                                    <th>Price / Ton</th>
+                                    <th>Total Ton</th>
+                                    <th>Total Amount</th>
+                                    <th>Deduction</th>
+                                    <th>Frieght Recieved</th>
+                                    <th>Sub Total</th>
+                                    <th>Advance Payment</th>
+                                    <th>Balance</th>
+                                    <th>Date</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for sales in sales %}
+                                <tr>
+                                    <td>{{sales.id|stringformat:"04d"}}</td>
+                                    <td>{{sales.item.product}} {{sales.item.product_place}}</td>
+                                    <td>{{sales.vehicle.vehicle_number}} {{sales.name}}</td>
+                                    <td>{{sales.price_per_ton}}</td>
+                                    <td>{{sales.total_ton}}</td>
+                                    <td>{{sales.total_amount}}</td>
+                                    <td>{{sales.deduction}}</td>
+                                    <td>{{sales.frieght_recieved}}</td>
+                                    <td>{{sales.sub_total}}</td>
+                                    <td>{{sales.advance_payment}}</td>
+                                    <td>{{sales.balance}}</td>
+                                    <td>{{sales.date}}</td>
+                                    <td class="text-center">
+                                        <a href="{% url 'sales:detail' pk=sales.id %}"><button class="btn btn-primary btn-xs">View</button></a>
+                                    </td>                                    
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            {% if paginator.page_range|length > 1 %}
+                            <div class="text-center col-lg-12">
+                                <ul class="pagination justify-content-center">
+                                    <li><a  style="background-color: #3070A8; color: white" class="page_previous" href="{% if page_obj.has_previous %}{% url 'sales:list' %}?page={{ page_obj.previous_page_number }}{% else %}#{% endif %}" title="Previous"><<</a></li>
+                                    <li><a style="background-color: #3070A8; color: white" class="page_next" href="{% if page_obj.has_next %}{% url 'sales:list' %}?page={{ page_obj.next_page_number }}{% else %}#{% endif %}" title="Next">>></a></li>
+                                </ul>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+{% block script %}
+    {{ block.super }}
+<script>
+$(function () {
+    $('.search').on('click', function () {
+        var url = '{% url "sales:list" %}';
+        window.location.href  = url + '?' + 'customer_name=' + $('.name_search').val() + '&customer_id=' +  $('.id_search').val();
+    });
+})
+</script>
+{% endblock %}

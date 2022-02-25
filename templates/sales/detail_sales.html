@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+{% block sales %}active{% endblock %}
+{% block sales_list %}active{% endblock %}
+{% load static %}
+{% block content %}
+    <div class="content-wrapper">
+        <section class="content-header">
+            <a href="#"><button type="button" id="invoice" class="btn btn-primary"  id="load" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>Processing">Create Invoice</button></a>
+            <button type="button" class="btn btn-primary print-invoice-btn" onclick="PrintInvoice('print-invoice')" >Print Invoice</button>
+            <ol class="breadcrumb">
+                <li><a href="{% url 'common:index' %}"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li><a href="{% url 'sales:list' %}">Sales List</a></li>
+                <li class="active">Sales Detail View</li>
+            </ol>
+        </section>
+        <section class="content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="box">
+                        <div class="box-body">
+                            <div class="row print-invoice" id="print-invoice">
+                                <div class="col-lg-12 text-center">
+                                    <h1 ><strong>Razza Corporation</strong></h1>
+                                    <h4></h4>
+                                   <!--  <span><strong>Address: </strong>Killi Gul Mohammad, Airport Road, Quetta</span> <br>
+                                    <small class="f-size"><strong>Phone No:</strong> 081-2301661 </small><small class="f-size"><strong>Mobile No: </strong> 0300-8382771, 0301-8383629</small> -->
+                                    <hr>
+                                    <u><h2 style="color: blue!important;"><b>Sales Invoice</b></h2></u>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="content-panel" style="padding: 5px">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                    <div class="col-lg-12">
+                                                        <label><strong class="f-size">Bill From:</strong></label> <span class="f-size"><b>Razza Corporation</b></span>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <label><strong class="f-size">ShahSkindar Road Dera Ghazi Khan</strong></label>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <label><strong class="f-size">Contact:</strong></label> <span class="f-size">03338108980</span>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <label><strong class="f-size">Email:</strong></label> <span class="f-size">razzacorporation@gmail.com</span>
+                                                    </div>
+                                            </div>
+                                            <div class="col-lg-6 text-right">
+                                                <div class="col-lg-12">
+                                                    <label><strong class="f-size">Bill To:</strong></label><span class="f-size">{{sales.customer.name|title}} {{sales.customer.father_name|title}}</span>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <label><strong class="f-size">Address:</strong></label><span class="f-size">{{sales.customer.address|title}}</span>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <label><strong class="f-size">City:</strong></label><span class="f-size">{{sales.customer.city|title}}</span>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <label><strong class="f-size">Contact:</strong></label><span class="f-size">{{ sales.customer.mobile}}</span>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <label><strong class="f-size">NTN:</strong></label><span class="f-size">{{ sales.customer.ntn}}</span>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <label><strong class="f-size">STRN:</strong></label><span class="f-size">{{ sales.customer.strn}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                                    <label><strong class="f-size">Billed Date:</strong></label><span class="f-size">{{ sales.date|date:"d-m-y" }}</span>
+                                                </div>
+                                        <div class="col-lg-12">
+                                                    <label><strong class="f-size">Invoice No:</strong></label><span class="f-size">{{ sales.id|stringformat:"07d"}}</span>
+                                                </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered" style="font-size: 22;">
+                                                        <thead>
+                                                        <tr class="item-row" style="background-color: blue; color: white;">
+                                                            <th >Item</th>
+                                                            <th >Vehicle</th>
+                                                            <th >Price / Ton</th>
+                                                            <th>Total Ton</th>
+                                                            <th>Total Amount</th>
+                                                            <th>Deduction</th>
+                                                            <th>Frieght/R</th>
+                                                            <th>Sub Total</th>
+                                                            <th>Balance</th>
+                                                            <th>Advance</th>
+                                                            <th>GST</th>
+                                                            <th>GST Sub Total</th>
+                                                            
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr id="hiderow">
+                                                                <td >
+                                                                    {{ sales.item.product|title}} {{sales.item.product_place|title}}
+                                                                </td>
+                                                                <td >
+                                                                    {{sales.vehicle.name}} {{sales.vehicle.vehicle_number}}
+                                                                </td>
+                                                                <td >
+                                                                    {{sales.price_per_ton}}
+                                                                </td>
+                                                                <td >
+                                                                    {{sales.total_ton}}
+                                                                </td>
+                                                                <td >
+                                                                    {{sales.total_amount}}
+                                                                </td>
+                                                                <td >
+                                                                    {{sales.deduction}}
+                                                                </td>
+                                                                <td >
+                                                                    {{sales.frieght_recieved}}
+                                                                </td>
+                                                                <td >
+                                                                    {{sales.sub_total}}
+                                                                </td>
+                                                                <td >
+                                                                    {{sales.balance}}
+                                                                </td>
+                                                                <td >
+                                                                    {{sales.advance_payment}}
+                                                                </td>
+                                                                <td >
+                                                                    {{sales.gst}}
+                                                                </td>
+                                                                <td >
+                                                                    {{sales.gst_sub_total}}
+                                                                </td>
+                                                                
+                                                            </tr>
+                                                        <!-- <tr><td colspan="4" style="color:white"></td></tr> -->
+                                                        <!-- <tr>
+                                                            <td><strong >Total Quantity: </strong><span id="totalQty" style="color: red; font-weight: bold;">{{ invoice.total_quantity }} </span> </td>
+                                                            <td class="text-right" ><strong >Sub Total</strong></td>
+                                                            <td><span id="grandTotal" style="color: red;">{{ invoice.grand_total|floatformat:-2 }}</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Received Payment: {{ invoice.paid_amount|floatformat:-2 }}</td>
+                                                            <td class="text-right"><strong >Discount</strong></td>
+                                                            <td><span id="cash_payment" >{{ invoice.discount|floatformat:-2 }}</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Remaining Paymnet (Ledger Amount): <span style="color: red">{%  if invoice.remaining_payment %}{{ invoice.remaining_payment|floatformat:-2 }}{% else %}0{% endif %}</span></td>
+                                                            <td class="text-right"><strong >Grand Total</strong></td>
+                                                            <td><span id="returned_cash"  >{{invoice.grand_total|floatformat:-2 }}</span></td>
+                                                        </tr> -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-md-12" style="text-align: center;">
+                                                <strong style="font-size:12px;color:#000">Thank You</strong>
+                                            </div>
+                                            <div class="col-xs-12 col-md-12" style="text-align: center;">
+                                                <strong class="f-size">
+                                                    Software Developed By Partum Solutions</strong>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-12 text-center">
+                                                <span class="f-size">www.partumsolutions.com</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-12 text-center">
+                                                <span class="f-size">ph:+92-332-8364441</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script>
+        function PrintInvoice(divName){
+             var printContents = document.getElementById(divName).innerHTML;
+             var originalContents = document.body.innerHTML;
+             document.body.innerHTML = printContents;
+             $('table').removeClass('table-bordered');
+             $('tr').css('border', '1px solid #000');
+             $('td').css('border', '1px solid #000');
+             $('th').css('border', '1px solid #000');
+             $('th').css('font-size', '8px');
+             $('tr').css('font-size', '8px');
+             $('td').css('font-size', '8px');
+             $('.f-size').css('font-size', '8px');
+             window.print();
+             document.body.innerHTML = originalContents;
+        }
+    </script>
+<script>
+
+$('#invoice').on('click', function() {
+    var $this = $(this);
+  $this.button('loading');
+    setTimeout(function() {
+       $this.button('reset');
+   }, 5000);
+});
+</script>
+
+{% endblock %}

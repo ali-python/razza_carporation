@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block vehicle %}active{% endblock %}
+{% block add_vehicle %}active{% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'common:index' %}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Add New Vehicle</li>
+        </ol>
+    </section>
+    <br>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-6 pull-left">
+                <div class="box">
+                    <div class="box-header">
+                        <h4 class="text-center"><b>Add New Vehicle</b></h4>
+                    </div>
+                    <div class="box-body">
+                        <form action="{% url 'vehicle:add_vehicle' %}" method="post" autocomplete="off">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-12 pull-left form-group">
+                                    <label class="form-control-label">Vehicle Name <span style="color:red">*</span></label>
+                                    <input type="text" name="name" class="form-control form-control-alternative" placeholder="Vehicle Name eg: truck, dumper etc" required>
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="col-md-12 pull-left form-group">
+                                    <label class="form-control-label">Vehicle Number <span style="color:red">*</span></label>
+                                    <input type="text" name="vehicle_number" class="form-control form-control-alternative" placeholder="Vehicle Number eg: ASD 2123" required>
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="col-md-12 pull-left form-group">
+                                    <label class="form-control-label">Vehicle Owner Name <span style="color:red">*</span></label>
+                                    <input type="text" name="vehicle_driver" class="form-control form-control-alternative" placeholder="Vehicle Owner Name" required>
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="col-md-12 pull-left form-group">
+                                    <label class="form-control-label">Vehicle Owner Mobile <span style="color:red">*</span></label>
+                                    <input type="text" name="vehicle_owner_number" class="form-control form-control-alternative" placeholder="Vehicle Owner Mobile" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 pull-right form-group">
+                                    <label class="form-control-label"></label>
+                                    <button type="submit" value="Create" class="btn btn-primary form-control">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}

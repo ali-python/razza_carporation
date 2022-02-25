@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block reports %}active{% endblock %}
+{% block weekly_reports %}active{% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'common:index' %}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Weekly Report</li>
+        </ol>
+    </section>
+    <br>
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h2 class="text-center">Weekly Reports</h2>
+                    </div>
+<!--                     <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4 pull-left">
+                                <input type="text" class="form-control name_search" placeholder="Search by Name ..." >
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control id_search" placeholder="Search by CNIC ...">
+                            </div>
+                            <div class="col-md-2 pull-right">
+                                <button class="form-control btn btn-primary search">Search</button>
+                            </div>
+                        <br><br>
+                        <hr>
+                        </div>
+                    </div> -->
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table align-items-center table-striped table-bordered table-hover" style="font-size: 22;">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th><i class="fa fa-user"></i>Date </th>
+                                    <th><i class="fa fa-user"></i>Total Debit </th>
+                                    <th><i class="fa fa-male"></i> Total Credit </th>
+                                    <th><i class="fa fa-mobile"></i>Total New Customer </th>
+                                    <th><i class="fa fa-edit"></i>Total New Purchase</th>
+                                    <th><i class="fa fa-edit"></i>Total Purchase Cost</th>
+                                    <th><i class="fa fa-edit"></i>Total New Sales</th>
+                                    <th><i class="fa fa-edit"></i>Total Sales Paid Amount</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for result in results %}
+                                    <tr>
+                                        <td>{{ result.date }}</td>
+                                        <td>{{ result.total_debit|floatformat:'-2' }}</td>
+                                        <td>{{ result.total_credit|floatformat:'-2' }}</td>
+                                        <td>{{ result.new_customer }}</td>
+                                        <td> {{ result.total_new_purchase }}</td>
+                                        <td> {{ result.weekly_total_cost }}</td>
+                                        <td>{{result.new_sales}}</td>
+                                        <td>{{result.total_paid_amount}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+{% block script %}
+    {{ block.super }}
+{% endblock %}

@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% block purchase %}active{% endblock %}
+{% block purchase_create %}active{% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'common:index' %}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Add Purchase</li>
+        </ol>
+    </section>
+    <br>
+    <section class="content">
+        <!-- Info boxes -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h4 class="text-center"><b>Add Purchase </b></h4>
+                    </div>
+                    <div class="box-body">
+                        <form action="{% url 'purchase:add' %}" method="post" autocomplete="off">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control-label" name="item">Item<span style="color:red">*</span></label>
+                                    <select class="form-control" name="item">
+                                        {% for item in item %}
+                                        <option value="{{item.id}}">{{item.product}} | {{item.product_place}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control-label" name="supplier">Supplier<span style="color:red">*</span></label>
+                                    <select class="form-control" name="supplier">
+                                        {% for supplier in supplier %}
+                                        <option value="{{supplier.id}}">{{supplier.name}} | {{supplier.father_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control-label" name="vehicle">Vehicle<span style="color:red">*</span></label>
+                                    <select class="form-control" name="vehicle">
+                                        {% for vehicle in vehicle %}
+                                        <option value="{{vehicle.id}}">{{vehicle.name}} | {{vehicle.vehicle_number}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-4  form-group">
+                                    <label class="form-control-label">Price Per Ton <span style="color:red">*</span></label>
+                                    <input type="text" id="price_per_ton" name="price_per_ton" class="form-control form-control-alternative" placeholder="Price Per Ton" onkeyup="sum()">
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control-label">Total Ton <span style="color:red">*</span></label>
+                                    <input type="text" id="total_ton" name="total_ton" class="form-control form-control-alternative" placeholder="Total Ton" onkeyup="sum()" required >
+                                </div>
+                                <div class="col-md-4  form-group">
+                                    <label class="form-control-label">Cost Item <span style="color:red">*</span></label>
+                                    <input type="text" id="cost" name="cost" class="form-control form-control-alternative" placeholder="Cost Item " onkeyup="sumtotal()" readonly >
+                                </div>
+                                 
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label class="form-control-label">Advance Payment / Paishgi <span style="color:red">*</span></label>
+                                    <input type="text" id="advance_payment" name="advance_payment" class="form-control form-control-alternative" placeholder="Advance Payment" onkeyup="sumtotaladvance()">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label class="form-control-label">After Advance Payment / Paishgi <span style="color:red">*</span></label>
+                                    <input type="text" id="after_advance_payment" name="after_advance_payment" class="form-control form-control-alternative" placeholder="After advance Payment" onkeyup="sumtotal()" readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                               <div class="col-md-4 form-group">
+                                    <label class="form-control-label">Expense Per Ton <span style="color:red">*</span></label>
+                                    <input type="text" id="expense_per_ton" name="expense_per_ton" class="form-control form-control-alternative" placeholder="Expense Per TOn" onkeyup="sumtotal()">
+                                </div>
+                                
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control-label">Frieght <span style="color:red">*</span></label>
+                                    <input type="text" id="frieght" name="frieght" class="form-control form-control-alternative" placeholder="Frieght" onkeyup="sumtotal()">
+                                </div>
+                                
+                                <div class="col-md-4  form-group">
+                                    <label class="form-control-label">T0tal Cost / Bill <span style="color:red">*</span></label>
+                                    <input type="text" id="total_cost" name="total_cost" class="form-control form-control-alternative" placeholder="Total Cost" readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4  form-group">
+                                    <label class="form-control-label">Date <span style="color:red">*</span></label>
+                                    <input type="date" name="date" class="form-control form-control-alternative" placeholder="Date " >
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control-label">Bilty Detail <span style="color:red">*</span></label>
+                                    <input type="text" name="bilty" class="form-control form-control-alternative" placeholder="Bilty Detail">
+                                </div><br>
+                                <div class="col-md-4">
+                                    <div class="form-group focused ">
+                                        <label class="btn btn-primary" for="image_1">
+                                            <input type="file" id="image_1" name="bilty_image" class=" col-lg-3 pull-left" style="display:none" title="Upload Document"  onchange="$('#upload-file-info').html(this.files[0].name)">
+                                            Upload Document 
+                                            <span class='label label-info' id="upload-file-info"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 pull-left form-group">
+                                    <label class="form-control-label"></label>
+                                    <button type="submit" value="Create" class="btn btn-primary form-control">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}
+{% block script %}
+    {{ block.super }}
+<script>
+function showImage(){
+if(this.files && this.files[0]){
+    var obj = new FileReader();
+    obj.onload = function(data){
+        var image = document.getElementById("photo");
+        image.src = data.target.result;
+        image.style.display = "block";
+    }
+    obj.readAsDataURL(this.files[0]);
+}
+}
+</script>
+<script type="text/javascript">
+        function sum() {
+            var price_per_ton = document.getElementById('price_per_ton').value;
+            var total_ton = document.getElementById('total_ton').value;
+            var result = parseFloat(price_per_ton) * parseFloat(total_ton);
+            if (!isNaN(result)) {
+                document.getElementById('cost').value = result;
+            }
+        }
+    </script>
+
+<script type="text/javascript">
+        function sumtotal() {
+            var expense_per_ton = document.getElementById('expense_per_ton').value;
+            var cost = document.getElementById('cost').value;
+            var frieght = document.getElementById('frieght').value;
+            var result = parseFloat(expense_per_ton) + parseFloat(cost) + parseFloat(frieght);
+            if (!isNaN(result)) {
+                document.getElementById('total_cost').value = result;
+            }
+        }
+    </script>
+
+<script type="text/javascript">
+        function sumtotaladvance() {
+            var advance_payment = document.getElementById('advance_payment').value;
+            var cost = document.getElementById('cost').value;
+            var result = parseFloat(cost) - parseFloat(advance_payment);
+            if (!isNaN(result)) {
+                document.getElementById('after_advance_payment').value = result;
+            }
+        }
+    </script>
+{% endblock %}
